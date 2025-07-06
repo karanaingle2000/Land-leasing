@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { FaUser, FaBell, FaLock, FaDatabase, FaGlobe, FaShieldAlt, FaSave, FaEye, FaEyeSlash } from 'react-icons/fa';
+import { FaUser, FaBell, FaLock, FaDatabase, FaGlobe, FaShieldAlt, FaSave, FaEye, FaEyeSlash, FaCreditCard } from 'react-icons/fa';
+import PaymentSettings from './PaymentSettings';
 
 const Settings = () => {
   const [activeTab, setActiveTab] = useState('profile');
@@ -57,6 +58,7 @@ const Settings = () => {
     { id: 'notifications', label: 'Notifications', icon: <FaBell /> },
     { id: 'security', label: 'Security', icon: <FaLock /> },
     { id: 'business', label: 'Business', icon: <FaDatabase /> },
+    { id: 'payments', label: 'Payments', icon: <FaCreditCard /> },
     { id: 'system', label: 'System', icon: <FaGlobe /> },
   ];
 
@@ -510,6 +512,7 @@ const Settings = () => {
             {activeTab === 'notifications' && renderNotificationSettings()}
             {activeTab === 'security' && renderSecuritySettings()}
             {activeTab === 'business' && renderBusinessSettings()}
+            {activeTab === 'payments' && <PaymentSettings />}
             {activeTab === 'system' && renderSystemSettings()}
           </div>
         </div>
