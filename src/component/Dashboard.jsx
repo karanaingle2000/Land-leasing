@@ -1,32 +1,36 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { FaChartLine, FaClock, FaRupeeSign, FaUsers, FaEye, FaMapMarkerAlt } from 'react-icons/fa';
+import { FaChartLine, FaClock, FaRupeeSign, FaUsers, FaEye, FaMapMarkerAlt, FaPlus, FaSearch, FaFileAlt, FaCog } from 'react-icons/fa';
 
 const Dashboard = () => {
   const stats = [
     { 
       label: 'Total Lands Listed', 
-      value: 12, 
+      value: 16, 
       icon: <FaMapMarkerAlt className="text-green-600" />,
-      color: 'bg-green-50 border-green-200'
+      color: 'bg-green-50 border-green-200',
+      change: '+2 this month'
     },
     { 
-      label: 'Pending Approvals', 
+      label: 'Pending Payments', 
       value: 3, 
       icon: <FaClock className="text-yellow-600" />,
-      color: 'bg-yellow-50 border-yellow-200'
+      color: 'bg-yellow-50 border-yellow-200',
+      change: '2 overdue'
     },
     { 
-      label: 'Total Lease Income', 
-      value: '₹85,000', 
+      label: 'Monthly Revenue', 
+      value: '₹1,12,000', 
       icon: <FaRupeeSign className="text-blue-600" />,
-      color: 'bg-blue-50 border-blue-200'
+      color: 'bg-blue-50 border-blue-200',
+      change: '+18% from last month'
     },
     { 
-      label: 'Registered Users', 
-      value: 24, 
+      label: 'Active Users', 
+      value: 28, 
       icon: <FaUsers className="text-purple-600" />,
-      color: 'bg-purple-50 border-purple-200'
+      color: 'bg-purple-50 border-purple-200',
+      change: '4 new this week'
     },
   ];
 
@@ -82,17 +86,18 @@ const Dashboard = () => {
   ];
 
   const recentActivity = [
-    { icon: '✅', text: 'Lease approved for 10-acre land in Pune', time: '2 hours ago' },
-    { icon: '🕒', text: 'Pending approval for 5-acre land in Nashik', time: '4 hours ago' },
-    { icon: '💰', text: 'Payment received from Sneha Patil (₹12,000)', time: '1 day ago' },
-    { icon: '📝', text: 'New land listing submitted by Rajesh Kumar', time: '2 days ago' },
+    { icon: '✅', text: 'Payment received from Sneha Patil (₹50,000)', time: '2 hours ago', type: 'payment' },
+    { icon: '🏞️', text: 'New land listing: Agricultural Plot in Kolhapur', time: '4 hours ago', type: 'listing' },
+    { icon: '👤', text: 'New user registration: Amit Desai', time: '6 hours ago', type: 'user' },
+    { icon: '📝', text: 'Lease agreement signed for Green Valley Farm', time: '1 day ago', type: 'contract' },
+    { icon: '🔔', text: 'Payment reminder sent to 3 tenants', time: '2 days ago', type: 'reminder' },
   ];
 
-  const notifications = [
-    { icon: '📬', text: '2 new lease requests waiting', priority: 'high' },
-    { icon: '🚧', text: '1 land listing requires update', priority: 'medium' },
-    { icon: '🛠️', text: 'Scheduled maintenance on July 10', priority: 'low' },
-    { icon: '📊', text: 'Monthly report is ready for download', priority: 'low' },
+  const upcomingTasks = [
+    { task: 'Follow up on overdue payments', priority: 'high', due: 'Today' },
+    { task: 'Review new land applications', priority: 'medium', due: 'Tomorrow' },
+    { task: 'Generate monthly report', priority: 'low', due: 'This week' },
+    { task: 'Update land pricing', priority: 'medium', due: 'Next week' },
   ];
 
   return (
@@ -100,7 +105,7 @@ const Dashboard = () => {
       <div className="max-w-7xl mx-auto">
         <div className="mb-8">
           <h1 className="text-4xl font-bold text-green-800 mb-2">Land Lease Dashboard</h1>
-          <p className="text-gray-600">Manage your land listings and track lease activities</p>
+          <p className="text-gray-600">Welcome back! Here's what's happening with your land lease business.</p>
         </div>
 
         {/* Stats Cards */}
@@ -108,31 +113,33 @@ const Dashboard = () => {
           {stats.map((item, index) => (
             <div
               key={index}
-              className={`${item.color} border p-6 rounded-xl shadow-sm hover:shadow-md transition-all duration-300`}
+              className={`${item.color} border p-6 rounded-xl shadow-sm hover:shadow-md transition-all duration-300 cursor-pointer`}
             >
               <div className="flex items-center justify-between mb-3">
-                <div className="text-2xl">{item.icon}</div>
+                <div className="text-3xl">{item.icon}</div>
                 <FaChartLine className="text-gray-400" />
               </div>
               <p className="text-sm text-gray-600 mb-1">{item.label}</p>
-              <p className="text-2xl font-bold text-gray-800">{item.value}</p>
+              <p className="text-2xl font-bold text-gray-800 mb-2">{item.value}</p>
+              <p className="text-xs text-gray-500">{item.change}</p>
             </div>
           ))}
         </section>
 
-        {/* Activity and Notifications */}
-        <section className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-10">
-          <div className="bg-white p-6 rounded-xl shadow-sm border">
+        {/* Main Content Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-10">
+          {/* Recent Activity */}
+          <div className="lg:col-span-2 bg-white p-6 rounded-xl shadow-sm border">
             <h2 className="text-xl font-bold mb-4 text-gray-800 flex items-center gap-2">
               <FaClock className="text-green-600" />
               Recent Activity
             </h2>
-            <div className="space-y-3">
+            <div className="space-y-3 max-h-80 overflow-y-auto">
               {recentActivity.map((activity, index) => (
-                <div key={index} className="flex items-start gap-3 p-3 bg-gray-50 rounded-lg">
-                  <span className="text-lg">{activity.icon}</span>
-                  <div className="flex-1">
-                    <p className="text-sm text-gray-800">{activity.text}</p>
+                <div key={index} className="flex items-start gap-3 p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+                  <span className="text-lg flex-shrink-0">{activity.icon}</span>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm text-gray-800 break-words">{activity.text}</p>
                     <p className="text-xs text-gray-500 mt-1">{activity.time}</p>
                   </div>
                 </div>
@@ -140,27 +147,28 @@ const Dashboard = () => {
             </div>
           </div>
 
+          {/* Upcoming Tasks */}
           <div className="bg-white p-6 rounded-xl shadow-sm border">
-            <h2 className="text-xl font-bold mb-4 text-gray-800">Notifications</h2>
+            <h2 className="text-xl font-bold mb-4 text-gray-800">Upcoming Tasks</h2>
             <div className="space-y-3">
-              {notifications.map((notification, index) => (
-                <div key={index} className="flex items-start gap-3 p-3 bg-gray-50 rounded-lg">
-                  <span className="text-lg">{notification.icon}</span>
-                  <div className="flex-1">
-                    <p className="text-sm text-gray-800">{notification.text}</p>
-                    <span className={`inline-block px-2 py-1 text-xs rounded-full mt-1 ${
-                      notification.priority === 'high' ? 'bg-red-100 text-red-600' :
-                      notification.priority === 'medium' ? 'bg-yellow-100 text-yellow-600' :
+              {upcomingTasks.map((task, index) => (
+                <div key={index} className="p-3 bg-gray-50 rounded-lg">
+                  <div className="flex items-start justify-between mb-2">
+                    <p className="text-sm text-gray-800 flex-1">{task.task}</p>
+                    <span className={`text-xs px-2 py-1 rounded-full font-semibold ml-2 ${
+                      task.priority === 'high' ? 'bg-red-100 text-red-600' :
+                      task.priority === 'medium' ? 'bg-yellow-100 text-yellow-600' :
                       'bg-gray-100 text-gray-600'
                     }`}>
-                      {notification.priority} priority
+                      {task.priority}
                     </span>
                   </div>
+                  <p className="text-xs text-gray-500">Due: {task.due}</p>
                 </div>
               ))}
             </div>
           </div>
-        </section>
+        </div>
 
         {/* Recent Lands */}
         <section className="mb-10">
@@ -168,7 +176,7 @@ const Dashboard = () => {
             <h2 className="text-2xl font-bold text-green-700">Recently Added Lands</h2>
             <Link 
               to="/land-detail" 
-              className="flex items-center gap-2 text-green-600 hover:text-green-700 font-medium"
+              className="flex items-center gap-2 text-green-600 hover:text-green-700 font-medium transition-colors"
             >
               <FaEye /> View All
             </Link>
@@ -209,7 +217,7 @@ const Dashboard = () => {
                       href={land.mapLink} 
                       target="_blank" 
                       rel="noopener noreferrer" 
-                      className="text-blue-500 hover:text-blue-700 text-sm font-medium"
+                      className="text-blue-500 hover:text-blue-700 text-sm font-medium transition-colors"
                     >
                       📍 View Map
                     </a>
@@ -226,29 +234,35 @@ const Dashboard = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <Link 
               to="/addland" 
-              className="flex items-center gap-3 p-4 bg-green-50 border border-green-200 rounded-lg hover:bg-green-100 transition-colors"
+              className="flex items-center gap-3 p-4 bg-green-50 border border-green-200 rounded-lg hover:bg-green-100 transition-colors group"
             >
-              <span className="text-2xl">➕</span>
+              <FaPlus className="text-green-600 group-hover:scale-110 transition-transform" />
               <span className="font-medium text-green-700">Add New Land</span>
             </Link>
             
             <Link 
               to="/land-detail" 
-              className="flex items-center gap-3 p-4 bg-blue-50 border border-blue-200 rounded-lg hover:bg-blue-100 transition-colors"
+              className="flex items-center gap-3 p-4 bg-blue-50 border border-blue-200 rounded-lg hover:bg-blue-100 transition-colors group"
             >
-              <span className="text-2xl">🔍</span>
+              <FaSearch className="text-blue-600 group-hover:scale-110 transition-transform" />
               <span className="font-medium text-blue-700">Browse Lands</span>
             </Link>
             
-            <button className="flex items-center gap-3 p-4 bg-yellow-50 border border-yellow-200 rounded-lg hover:bg-yellow-100 transition-colors">
-              <span className="text-2xl">📊</span>
+            <Link 
+              to="/reports" 
+              className="flex items-center gap-3 p-4 bg-yellow-50 border border-yellow-200 rounded-lg hover:bg-yellow-100 transition-colors group"
+            >
+              <FaFileAlt className="text-yellow-600 group-hover:scale-110 transition-transform" />
               <span className="font-medium text-yellow-700">View Reports</span>
-            </button>
+            </Link>
             
-            <button className="flex items-center gap-3 p-4 bg-purple-50 border border-purple-200 rounded-lg hover:bg-purple-100 transition-colors">
-              <span className="text-2xl">⚙️</span>
+            <Link 
+              to="/settings" 
+              className="flex items-center gap-3 p-4 bg-purple-50 border border-purple-200 rounded-lg hover:bg-purple-100 transition-colors group"
+            >
+              <FaCog className="text-purple-600 group-hover:scale-110 transition-transform" />
               <span className="font-medium text-purple-700">Settings</span>
-            </button>
+            </Link>
           </div>
         </section>
       </div>
