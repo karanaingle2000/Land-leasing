@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { FaMapMarkerAlt, FaUserTie, FaRupeeSign, FaLeaf, FaClock, FaTools, FaSearch } from 'react-icons/fa';
+import { FaMapMarkerAlt, FaUserTie, FaRupeeSign, FaLeaf, FaClock, FaTools, FaSearch, FaCreditCard } from 'react-icons/fa';
+import PaymentModal from './PaymentModal';
 
 const mockLandData = [
   {
@@ -10,6 +11,7 @@ const mockLandData = [
     size: '5 Acres',
     usage: 'Agricultural',
     price: '₹25,000/month',
+    priceAmount: 25000,
     leaseLength: '12 Months',
     paymentSchedule: 'Monthly',
     improvements: 'Fencing and irrigation setup included.',
@@ -26,6 +28,7 @@ const mockLandData = [
     size: '3 Acres',
     usage: 'Commercial',
     price: '₹50,000/month',
+    priceAmount: 50000,
     leaseLength: '24 Months',
     paymentSchedule: 'Quarterly',
     improvements: 'Road access and electricity connection available.',
@@ -42,6 +45,7 @@ const mockLandData = [
     size: '2 Acres',
     usage: 'Residential',
     price: '₹35,000/month',
+    priceAmount: 35000,
     leaseLength: '18 Months',
     paymentSchedule: 'Monthly',
     improvements: 'Boundary wall and water connection ready.',
@@ -56,6 +60,8 @@ const LandDetail = () => {
   const [searchLocation, setSearchLocation] = useState('');
   const [filteredLands, setFilteredLands] = useState(mockLandData);
   const [searchPerformed, setSearchPerformed] = useState(false);
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
+  const [selectedLand, setSelectedLand] = useState(null);
 
   const handleSearch = () => {
     setSearchPerformed(true);
@@ -74,6 +80,15 @@ const LandDetail = () => {
     if (e.key === 'Enter') {
       handleSearch();
     }
+  };
+
+  const handlePayNow = (land) => {
+    setSelectedLand({
+      amount: land.priceAmount,
+      landTitle: land.title,
+      landId: land.id
+    });
+    setShowPaymentModal(true);
   };
 
   return (
@@ -195,8 +210,12 @@ const LandDetail = () => {
                   </div>
 
                   <div className="mt-6 flex gap-3">
-                    <button className="flex-1 bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-6 rounded-full transition-all duration-300 transform hover:scale-105">
-                      📩 Request Lease
+                    <button 
+                      onClick={() => handlePayNow(land)}
+                      className="flex-1 bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-6 rounded-full transition-all duration-300 transform hover:scale-105 flex items-center justify-center gap-2"
+                    >
+                      <FaCreditCard />
+                      Pay Now - {land.price}
                     </button>
                     <button className="bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold py-3 px-6 rounded-full transition-all duration-300">
                       💬 Contact Owner
@@ -208,6 +227,13 @@ const LandDetail = () => {
           ))}
         </div>
       )}
+
+      {/* Payment Modal */}
+      <PaymentModal
+        isOpen={showPaymentModal}
+        onClose={() => setShowPaymentModal(false)}
+        paymentData={selectedLand}
+      />
     </div>
   );
 };
