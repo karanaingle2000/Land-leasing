@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FaUser, FaBell, FaLock, FaDatabase, FaGlobe, FaShield, FaSave, FaEye, FaEyeSlash } from 'react-icons/fa';
+import { FaUser, FaBell, FaLock, FaDatabase, FaGlobe, FaShieldAlt, FaSave, FaEye, FaEyeSlash } from 'react-icons/fa';
 
 const Settings = () => {
   const [activeTab, setActiveTab] = useState('profile');
@@ -463,7 +463,7 @@ const Settings = () => {
             <FaDatabase /> Export Data
           </button>
           <button className="flex items-center justify-center gap-2 p-4 border-2 border-green-300 text-green-600 rounded-lg hover:bg-green-50 transition-colors">
-            <FaShield /> Backup Now
+            <FaShieldAlt /> Backup Now
           </button>
           <button className="flex items-center justify-center gap-2 p-4 border-2 border-red-300 text-red-600 rounded-lg hover:bg-red-50 transition-colors">
             <FaDatabase /> Clear Cache
